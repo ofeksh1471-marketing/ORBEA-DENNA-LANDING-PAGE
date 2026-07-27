@@ -43,7 +43,7 @@ export default function DennaPage() {
         <a className="recycles-lockup" href="https://www.recycles.co.il/" target="_blank" rel="noreferrer">
           <img src="/shared/recycles-logo-black.png" alt="Recycles" />
         </a>
-        <div className="topbar-model" aria-label="ORBEA DENNA">ORBEA DENNA</div>
+        <div className="topbar-model" aria-label="DENNA">DENNA</div>
         <a className="topbar-cta" href={modelsUrl} target="_blank" rel="noreferrer">לדגמים</a>
       </header>
 
@@ -60,6 +60,7 @@ export default function DennaPage() {
             <strong>FUN</strong>
             <span>BEGINS</span>
           </div>
+          <a className="hero-cta" href={modelsUrl} target="_blank" rel="noreferrer">לכל הדגמים</a>
         </div>
         <a className="scroll-cue" href="#story" aria-label="המשך לעמוד">↓</a>
       </section>
@@ -212,7 +213,7 @@ export default function DennaPage() {
       </section>
 
       <section className="closing">
-        <img className="closing-image" src="/models/denna/official-banner-06.webp" alt="רוכבת על ORBEA Denna" />
+        <img className="closing-image" src="/models/denna/last.webp" alt="ORBEA Denna" />
         <div className="closing-shade" />
         <div className="closing-copy">
           <div className="brand-lockup">
@@ -224,8 +225,11 @@ export default function DennaPage() {
       </section>
 
       <footer>
-        <img src="/shared/recycles-logo-white.png" alt="Recycles" />
-        <p>© Recycles 2026. כל הזכויות שמורות.</p>
+        <div className="footer-logos">
+          <img src="/shared/recycles-logo-white.png" alt="Recycles" />
+          <img src="/models/denna/orbea-logo-white-cropped.png" alt="ORBEA" />
+        </div>
+        <p><span dir="ltr">© 2026 Recycles</span> כל הזכויות שמורות</p>
       </footer>
     </main>
   );

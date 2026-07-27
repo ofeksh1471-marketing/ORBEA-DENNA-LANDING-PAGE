@@ -23,33 +23,65 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <script
           dangerouslySetInnerHTML={{
             __html: `(function () {
-  function sendHeightToParent() {
-    const height = Math.max(
-      document.body.scrollHeight,
-      document.documentElement.scrollHeight,
-      document.body.offsetHeight,
-      document.documentElement.offsetHeight
-    );
 
-    if (window.parent && window.parent !== window) {
-      window.parent.postMessage({
-        type: 'update-iframe-height',
-        height: height
-      }, '*');
+    if (window.parent === window)
+        return;
+
+    let lastHeight = 0;
+    let timer = null;
+
+    function getHeight() {
+        return Math.max(
+            document.documentElement.scrollHeight,
+            document.body.scrollHeight
+        );
     }
-  }
 
-  window.addEventListener('load', sendHeightToParent);
-  window.addEventListener('resize', sendHeightToParent);
+    function sendHeight(force = false) {
 
-  if (window.ResizeObserver) {
-    const observer = new ResizeObserver(function () {
-      sendHeightToParent();
+        clearTimeout(timer);
+
+        timer = setTimeout(function () {
+
+            const height = getHeight();
+
+            if (height < 100)
+                return;
+
+            if (!force && height === lastHeight)
+                return;
+
+            lastHeight = height;
+
+            window.parent.postMessage({
+                type: "update-iframe-height",
+                height: height
+            }, "*");
+
+        }, 50);
+    }
+
+    sendHeight(true);
+
+    window.addEventListener("load", () => sendHeight(true));
+    window.addEventListener("resize", () => sendHeight());
+
+    const observer = new ResizeObserver(() => {
+        sendHeight();
     });
-    observer.observe(document.body);
-  } else {
-    setTimeout(sendHeightToParent, 1000);
-  }
+
+    if (document.body) {
+        observer.observe(document.body);
+    } else {
+        window.addEventListener("DOMContentLoaded", function () {
+            observer.observe(document.body);
+        });
+    }
+
+    setTimeout(sendHeight, 200);
+    setTimeout(sendHeight, 1000);
+    setTimeout(sendHeight, 3000);
+
 })();`,
           }}
         />
