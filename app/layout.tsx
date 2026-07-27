@@ -18,7 +18,74 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           rel="stylesheet"
         />
       </head>
-      <body>{children}</body>
+      <body>
+        {children}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function () {
+
+    if (window.parent === window)
+        return;
+
+    let lastHeight = 0;
+    let timer = null;
+
+    function getHeight() {
+        return Math.max(
+            document.documentElement.scrollHeight,
+            document.body.scrollHeight
+        );
+    }
+
+    function sendHeight(force = false) {
+
+        clearTimeout(timer);
+
+        timer = setTimeout(function () {
+
+            const height = getHeight();
+
+            if (height < 100)
+                return;
+
+            if (!force && height === lastHeight)
+                return;
+
+            lastHeight = height;
+
+            window.parent.postMessage({
+                type: "update-iframe-height",
+                height: height
+            }, "*");
+
+        }, 50);
+    }
+
+    sendHeight(true);
+
+    window.addEventListener("load", () => sendHeight(true));
+    window.addEventListener("resize", () => sendHeight());
+
+    const observer = new ResizeObserver(() => {
+        sendHeight();
+    });
+
+    if (document.body) {
+        observer.observe(document.body);
+    } else {
+        window.addEventListener("DOMContentLoaded", function () {
+            observer.observe(document.body);
+        });
+    }
+
+    setTimeout(sendHeight, 200);
+    setTimeout(sendHeight, 1000);
+    setTimeout(sendHeight, 3000);
+
+})();`,
+          }}
+        />
+      </body>
     </html>
   );
 }
