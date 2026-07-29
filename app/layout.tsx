@@ -3,8 +3,21 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "ORBEA DENNA | יותר עוצמה. יותר טווח. יותר כיף.",
-  description: "ORBEA Denna - אופני גראבל חשמליים לרכיבות ארוכות, חזקות ובעיקר מהנות.",
-  icons: { icon: "/favicon.svg" },
+  description:
+    "ORBEA Denna - אופני גראבל חשמליים עם Shimano EP801, מערכת RS Gen2 RC, סוללת 420Wh ומרווח לצמיגים עד 50C.",
+  openGraph: {
+    title: "ORBEA DENNA | יותר עוצמה. יותר טווח. יותר כיף.",
+    description: "אופני גראבל חשמליים לרכיבות ארוכות, חזקות ובעיקר מהנות.",
+    locale: "he_IL",
+    type: "website",
+    images: [{ url: "/og-denna-2026.png", width: 1672, height: 941, alt: "ORBEA Denna" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "ORBEA DENNA | יותר עוצמה. יותר טווח. יותר כיף.",
+    description: "אופני גראבל חשמליים לרכיבות ארוכות, חזקות ובעיקר מהנות.",
+    images: ["/og-denna-2026.png"],
+  },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
@@ -83,6 +96,29 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     setTimeout(sendHeight, 3000);
 
 })();`,
+          }}
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `document.addEventListener("click", function (e) {
+
+    const link = e.target.closest('a[href^="#"]');
+
+    if (!link) return;
+
+    const target = document.querySelector(link.hash);
+
+    if (!target) return;
+
+    const rect = target.getBoundingClientRect();
+
+    window.parent.postMessage({
+        type: "anchorClicked",
+        offset: rect.top + window.scrollY
+    }, "*");
+
+    e.preventDefault();
+});`,
           }}
         />
       </body>
